@@ -1,0 +1,66 @@
+<header>
+    <h1><%= link_to "Forecastly", root_path %></h1>
+    <p>Your reliable weather app</p>
+</header>
+
+<section>
+    <p>Enter an address below to get the latest weather forecast for your area.</p>
+    <small class="example-addresses">
+        Try: "New York", "London", "Seattle", "1 Infinite Loop Cupertino, CA 95014", or "95014"
+    </small>
+</section>
+
+<%= form_with url: weather_path, method: :get, local: true do %>
+<div>
+    <label for="address">Enter Address:</label>
+    <%= text_field_tag :address, params[:address],
+                       placeholder: "e.g., New York",
+                       autocomplete: "off",
+                       'data-name': "address",
+                       id: "address-input",
+                       oninput: "WeatherController.validateForm()" %>
+</div>
+<div class="button-group">
+    <%= submit_tag "Get Weather", disabled: true, class: 'submit-button', id: "submit-weather" %>
+</div>
+<% end %>
+
+<% if @weather_data %>
+<div class="weather-container">
+    <h2>Weather for <%= @address %></h2>
+    <div class="location-info">
+        <span class="zip-code"><%= params[:address] %></span>
+        <% if @weather_data[:city] %>
+        <span class="city"><%= @weather_data[:city] %></span>
+        <% end %>
+    </div>
+    <div class="weather-info">
+        <div class="weather-main">
+            <div class="current-temp">
+                <span class="temp-value"><%= @weather_data[:current_temp] %>°F</span>
+                <span class="temp-label">Current</span>
+            </div>
+            <div class="weather-description">
+                <%= @weather_data[:description].capitalize %>
+            </div>
+        </div>
+        <div class="temp-range">
+            <div class="high-temp">
+                <span class="temp"><%= @weather_data[:high_temp] %>°F</span>
+                <span class="label">High</span>
+            </div>
+            <div class="low-temp">
+                <span class="temp"><%= @weather_data[:low_temp] %>°F</span>
+                <span class="label">Low</span>
+            </div>
+        </div>
+    </div>
+    <small class="text-muted">
+        <%= @weather_data[:cached] ? "Data from cache" : "Fresh data from API" %>
+    </small>
+</div>
+<% elsif flash[:error].present? %>
+<div class="error-message">
+    <strong><%= flash[:error] %></strong>
+</div>
+<% end %>
