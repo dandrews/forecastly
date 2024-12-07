@@ -1,0 +1,41 @@
+name: RSpec CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      RAILS_ENV: test
+      OPENWEATHER_API_KEY: dummy_key_for_tests
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2.2"
+          bundler-cache: true
+          bundler: "latest"
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sqlite3 libsqlite3-dev
+          bundle install
+
+      - name: Set up database
+        run: |
+          bin/rails db:create db:migrate
+
+      - name: Run RSpec tests
+        run: bundle exec rspec --format documentation
