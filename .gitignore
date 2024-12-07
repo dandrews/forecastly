@@ -34,9 +34,6 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-# Ignore database configuration
-/config/database.yml
-
 # Ignore coverage reports
 /coverage/*
 
@@ -66,7 +63,6 @@ yarn-debug.log*
 spec/examples.txt
 
 # Ignore local RVM/rbenv files
-.ruby-version
 .ruby-gemset
 .rvmrc
 
