@@ -16,6 +16,23 @@ A Ruby on Rails weather application that provides current weather information ba
 - MVC architecture following Rails conventions
 - Service objects for API interactions
 
+## Code Review Guide
+
+The core business logic of this application is concentrated in the following files:
+
+### Weather Controller
+- [`app/controllers/weather_controller.rb`](app/controllers/weather_controller.rb): Entry point for weather requests, handles user input and displays results
+
+### Weather Module Services
+All key business logic is organized in the `Weather` module:
+- [`app/services/weather/client.rb`](app/services/weather/client.rb): Main orchestrator that coordinates the weather lookup process
+- [`app/services/weather/forecast.rb`](app/services/weather/forecast.rb): Handles API interactions with OpenWeather and caching logic
+- [`app/services/weather/location_lookup.rb`](app/services/weather/location_lookup.rb): Manages geocoding addresses to coordinates
+- [`app/services/weather/address_parser.rb`](app/services/weather/address_parser.rb): Parses and normalizes address inputs
+- [`app/services/weather/coordinates.rb`](app/services/weather/coordinates.rb): Value object for location data validation
+
+Other files in the project primarily handle configuration, styling, and standard Rails setup.
+
 ## Monitoring and Error Handling
 
 - Error logging with Rails logger
