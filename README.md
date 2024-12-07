@@ -33,6 +33,10 @@ All key business logic is organized in the `Weather` module:
 
 Other files in the project primarily handle configuration, styling, and standard Rails setup.
 
+## Yard Documentation
+
+View the YARD-generated documentation [here](https://dandrews.github.io/forecastly/doc/).
+
 ## Monitoring and Error Handling
 
 - Error logging with Rails logger
